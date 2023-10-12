@@ -1,6 +1,4 @@
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -29,21 +27,40 @@ public class InterestingPlacesGetter implements Runnable {
         System.out.println("Done!");
     }
     public void makeRequest() throws IOException {
-        getDescriptions(getPlaces());
+        getPlaces();
     }
 
-    private JSONArray getPlaces() {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().
-                uri(URI.create("http://api.opentripmap.com/0.1/ru/places/radius?radius=" + RADIUS +
+    private void getPlaces() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://api.opentripmap.com/0.1/ru/places/radius?radius=" + RADIUS +
                         "&lon=" + locationSet.getSelectedLocation().getCoords().getLongitude() +
                         "&lat=" + locationSet.getSelectedLocation().getCoords().getLatitude() +
-                        "&apikey=" + APIkey)).build();
-        String places = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .join();
-        System.out.println(places);
-        return new JSONObject(places).getJSONArray("features");
+                        "&apikey=" + APIkey)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            public void onResponse(Call call, Response response) throws IOException {
+                System.out.println(response);
+//                return new JSONObject(response).getJSONArray("features");
+                getDescriptions(new JSONObject(response).getJSONArray("features"));
+            }
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder().
+//                uri(URI.create("http://api.opentripmap.com/0.1/ru/places/radius?radius=" + RADIUS +
+//                        "&lon=" + locationSet.getSelectedLocation().getCoords().getLongitude() +
+//                        "&lat=" + locationSet.getSelectedLocation().getCoords().getLatitude() +
+//                        "&apikey=" + APIkey)).build();
+//        String places = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                .thenApply(HttpResponse::body)
+//                .join();
+
     }
 
     private void getDescriptions(JSONArray features) throws IOException {
@@ -62,8 +79,14 @@ public class InterestingPlacesGetter implements Runnable {
                         .get()
                         .build();
 
-                Response response = client.newCall(request).execute();
-                parseResponse(response.body().string());
+                client.newCall(request).enqueue(new Callback() {
+                    public void onResponse(Call call, Response response) throws IOException {
+                        parseResponse(response.body().string());
+                    }
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+                });
 //                JSONObject jsonObject = new JSONObject(response.body().string());
 //                if (jsonObject.has("kinds")) {
 //                    String description = jsonObject.getString("kinds");
@@ -91,30 +114,37 @@ public class InterestingPlacesGetter implements Runnable {
     }
 
     void parseResponse(String body) {
-        System.out.println("parsing...");
-        System.out.println(body);
+        //System.out.println("parsing...");
+        //System.out.println(body);
 
 
-        JSONObject jsonObject = new JSONObject(body);
-        if (jsonObject.has("kinds")) {
-            String description = jsonObject.getString("kinds");
-            System.out.println(jsonObject.getString("name") + " - " + description);
+//        JSONObject jsonObject = new JSONObject(body);
+//        if (jsonObject.has("kinds")) {
+//            String description = jsonObject.getString("kinds");
+//            if (jsonObject.has("address") && jsonObject.getJSONObject("address").has("road")) {
+//                System.out.println(jsonObject.getJSONObject("address").getString("road"));
+//            }
+//            System.out.println(jsonObject.getString("name") + " - " + description);
+//        }
+
+        JSONObject place = new JSONObject(body);
+        //System.out.println(place);
+        StringBuilder description = new StringBuilder();
+        description.append(place.getString("name"));
+        description.append(" (");
+        if (place.has("kinds")) {
+            description.append(place.getString("kinds"));
         }
+        if (place.has("road")) {
+            description.append(", ");
+            description.append(place.getString("road"));
+        }
+        if (place.has("house")) {
+            description.append(", ");
+            description.append(place.getString("house"));
+        }
+        description.append(")");
 
-//        JSONObject place = new JSONObject(body);
-//        System.out.println(place);
-//        String name = place.getString("name");
-//        String kinds = place.getString("place");
-//        String road = place.getJSONObject("address").getString("road");
-//        String house = place.getJSONObject("address").getString("house");
-//        System.out.println("name: ");
-//        StringBuilder description = new StringBuilder();
-//        description.append(name);
-//        description.append(": ");
-//        if (kinds != null) description.append(kinds);
-//        if (road != null) description.append(road);
-//        if (house != null) description.append(house);
-//
-//        System.out.println(name + ", " + road + ", " + house);
+        System.out.println(description);
     }
 }

@@ -17,5 +17,6 @@ public class Main {
         completableFuture.thenAccept(selectedLocation -> new InterestingPlacesGetter(locationSet, selectedLocation).run());
 
         completableFuture.get();
+        System.out.println("Finish");
     }
 }

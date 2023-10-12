@@ -1,7 +1,9 @@
+import okhttp3.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -30,15 +32,32 @@ public class WeatherGetter implements Runnable {
         System.out.println("Done!");
     }
     public void makeRequest() throws IOException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().
-                uri(URI.create("https://api.openweathermap.org/data/2.5/weather?units=metric&lat=" +
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://api.openweathermap.org/data/2.5/weather?units=metric&lat=" +
                         locationSet.getSelectedLocation().getCoords().getLatitude() + "&lon=" +
-                        locationSet.getSelectedLocation().getCoords().getLongitude() + "&appid=" + APIkey)).build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(this::parseResponse)
-                .join();
+                        locationSet.getSelectedLocation().getCoords().getLongitude() + "&appid=" + APIkey)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            public void onResponse(Call call, Response response) throws IOException {
+                parseResponse(response.body().string());
+            }
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder().
+//                uri(URI.create("https://api.openweathermap.org/data/2.5/weather?units=metric&lat=" +
+//                        locationSet.getSelectedLocation().getCoords().getLatitude() + "&lon=" +
+//                        locationSet.getSelectedLocation().getCoords().getLongitude() + "&appid=" + APIkey)).build();
+//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                .thenApply(HttpResponse::body)
+//                .thenAccept(this::parseResponse)
+//                .join();
     }
 
     void parseResponse(String body) {
