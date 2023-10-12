@@ -8,16 +8,17 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
-public class LocationGetter implements Runnable {
+public class LocationGetter {
     private final LocationSet locationSet;
     private static final String APIkey = "b4ffdb7c-df80-4dff-8266-725cc3a06c2a";
     public LocationGetter(LocationSet locationSet) {
         this.locationSet = locationSet;
     }
 
-    @Override
-    public void run() {
+    public CompletableFuture<Integer> run() {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter location: ");
 
@@ -27,7 +28,13 @@ public class LocationGetter implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Done!");
+        //System.out.println("Done!");
+        System.out.print("Choose one location and enter its index: ");
+
+        int selectedIndex = scanner.nextInt();
+//        locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
+        future.complete(selectedIndex);
+        return future;
     }
     public void makeRequest(String location) throws IOException {
 //        OkHttpClient client = new OkHttpClient();

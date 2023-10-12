@@ -5,22 +5,23 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Scanner;
 
 public class WeatherGetter implements Runnable {
     private final LocationSet locationSet;
     private static final String APIkey = "25ff6748da47a7d903abd3e5e6f6b7cb";
-    public WeatherGetter(LocationSet locationSet) {
+    public WeatherGetter(LocationSet locationSet, int selectedIndex) {
         this.locationSet = locationSet;
+        locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
     }
 
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Choose one location and enter its index: ");
-
-        int selectedIndex = scanner.nextInt();
-        locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Choose one location and enter its index: ");
+//
+//        int selectedIndex = scanner.nextInt();
+//        locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
+        //locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
         try {
             makeRequest();
         } catch (IOException e) {
