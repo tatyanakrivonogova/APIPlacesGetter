@@ -12,13 +12,10 @@ public class InterestingPlacesGetter {
     public InterestingPlacesGetter(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;
     }
-    public CompletableFuture<JSONArray> run() {
-        CompletableFuture<JSONArray> future = new CompletableFuture<>();
-        getPlaces(future);
-        return future;
-    }
 
-    private void getPlaces(CompletableFuture<JSONArray> future) {
+    public CompletableFuture<JSONArray> getPlaces() {
+        CompletableFuture<JSONArray> future = new CompletableFuture<>();
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("http://api.opentripmap.com/0.1/ru/places/radius?radius=" + RADIUS +
@@ -38,5 +35,6 @@ public class InterestingPlacesGetter {
                 future.completeExceptionally(e);
             }
         });
+        return future;
     }
 }

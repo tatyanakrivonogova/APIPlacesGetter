@@ -16,7 +16,7 @@ public class LocationGetter {
         this.locationSet = new LocationSet(new HashMap<>());
     }
 
-    public CompletableFuture<LocationSet> run() {
+    public CompletableFuture<LocationSet> getLocations() {
         CompletableFuture<LocationSet> future = new CompletableFuture<>();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите название: ");
@@ -28,13 +28,12 @@ public class LocationGetter {
             e.printStackTrace();
             future.completeExceptionally(e);
         }
-        //System.out.println("Completed");
         return future;
     }
     public void makeRequest(String location,CompletableFuture<LocationSet> future) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://graphhopper.com/api/1/geocode?locale=ru&q=" + URLEncoder.encode("Цветной проезд") + "&key=" + APIkey)
+                .url("https://graphhopper.com/api/1/geocode?locale=ru&q=" + URLEncoder.encode(location) + "&key=" + APIkey)
                 .get()
                 .build();
 
@@ -59,12 +58,11 @@ public class LocationGetter {
             double latitude = object.getJSONObject("point").getDouble("lat");
             double longitude = object.getJSONObject("point").getDouble("lng");
             String name = object.getString("name");
-            String country = object.getString("country");
-            String state = object.getString("state");
-            String city = object.getString("city");
+            String country = object.has("country") ? object.getString("country") : "";
+            String state = object.has("state") ? object.getString("state") : "";
+            String city = object.has("city") ? object.getString("city") : "";
 
             locationSet.getLocationsMap().put(index, new LocationInfo(name, country, state, city, new Coordinates(latitude, longitude)));
-            //System.out.println(index + ": " + "name=" + name + " country=" + country + " state=" + state + " city=" + city + " latitude=" + latitude + " longitude=" + longitude);
             ++index;
         }
     }
@@ -79,12 +77,9 @@ public class LocationGetter {
                     + ", долгота: " + location.getValue().getCoords().getLongitude()
                     + ", широта: " + location.getValue().getCoords().getLatitude());
         }
-        //System.out.println("*************************");
         System.out.print("Выберите нужную локацию и введите ее номер: ");
         Scanner scanner = new Scanner(System.in);
         int selectedIndex = scanner.nextInt();
-        //locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
-        //future.complete(locationSet.getLocationsMap().get(selectedIndex));
         return locationSet.getLocationsMap().get(selectedIndex);
     }
 }

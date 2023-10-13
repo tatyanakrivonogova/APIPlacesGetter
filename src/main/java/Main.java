@@ -10,39 +10,37 @@ public class Main {
     public static void main(String ... args) {
         LocationGetter locationGetter = new LocationGetter();
 
-        CompletableFuture<LocationSet> locationsFuture = locationGetter.run();
+        CompletableFuture<LocationSet> locationsFuture = locationGetter.getLocations();
         CompletableFuture<LocationInfo> selectedLocationFuture = locationsFuture.thenApply(locationGetter::chooseLocation);
 
         CompletableFuture<String> weatherFuture = selectedLocationFuture.thenCompose(selectedLocation ->
-                new WeatherGetter(selectedLocation).run());
-
+                new WeatherGetter(selectedLocation).getWeather());
 
         CompletableFuture<JSONArray> placesFuture = selectedLocationFuture.thenCompose(selectedLocation ->
-                new InterestingPlacesGetter(selectedLocation).run());
+                new InterestingPlacesGetter(selectedLocation).getPlaces());
 
         CompletableFuture<String> descriptionsFuture = placesFuture.thenCompose(places -> {
-            List<CompletableFuture<String>> futureList = new ArrayList<>();
+            List<CompletableFuture<String>> descriptionsFutureList = new ArrayList<>();
             for (Object o: places) {
-                futureList.add(DescriptionGetter.getDescription((JSONObject) o));
+                descriptionsFutureList.add(DescriptionGetter.getDescription((JSONObject) o));
             }
-            StringBuilder descriptions = new StringBuilder();
-            CompletableFuture<String> descr = new CompletableFuture<>();
-            CompletableFuture<Void> allFutures = CompletableFuture.allOf(futureList.toArray(new CompletableFuture[0]));
+            StringBuilder stringDescriptions = new StringBuilder();
+            CompletableFuture<String> descriptions = new CompletableFuture<>();
+            CompletableFuture<Void> allFutures = CompletableFuture.allOf(descriptionsFutureList.toArray(new CompletableFuture[0]));
             allFutures.thenRun(() -> {
-                for (CompletableFuture<String> future : futureList) {
+                for (CompletableFuture<String> future : descriptionsFutureList) {
                     try {
                         String description = future.get();
                         if (!description.isEmpty()) {
-                            //System.out.println("+++" + description);
-                            descriptions.append(description).append('\n');
+                            stringDescriptions.append(description).append('\n');
                         }
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 }
-                descr.complete(descriptions.toString());
+                descriptions.complete(stringDescriptions.toString());
             });
-            return descr;
+            return descriptions;
         });
 
         CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(weatherFuture, descriptionsFuture);
@@ -56,7 +54,5 @@ public class Main {
                 e.printStackTrace();
             }
         });
-
-        //System.out.println("Finish");
     }
 }

@@ -11,11 +11,9 @@ public class WeatherGetter {
         this.locationInfo = locationInfo;
     }
     
-    public CompletableFuture<String> run() {
-        //locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
+    public CompletableFuture<String> getWeather() {
         CompletableFuture<String> future = new CompletableFuture<>();
         makeRequest(future);
-        //System.out.println("Done!");
         return future;
     }
     public void makeRequest(CompletableFuture<String> future) {
@@ -39,7 +37,6 @@ public class WeatherGetter {
     }
 
     String parseResponse(String body) {
-        //System.out.println(body);
         JSONObject jsonObject = new JSONObject(body).getJSONObject("main");
 
         double temp = jsonObject.getDouble("temp");
