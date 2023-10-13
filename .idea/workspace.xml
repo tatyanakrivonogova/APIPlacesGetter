@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73606e6-7eb4-4db9-8c0d-074dfc59e6ed" name="Changes" comment="full functional, can't get road and house of places">
+    <list default="true" id="b73606e6-7eb4-4db9-8c0d-074dfc59e6ed" name="Changes" comment="works wrong">
+      <change afterPath="$PROJECT_DIR$/src/main/java/DescriptionGetter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/InterestingPlacesGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/InterestingPlacesGetter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/LocationGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LocationGetter.java" afterDir="false" />
@@ -85,26 +86,29 @@
       <option name="project" value="LOCAL" />
       <updated>1697098764832</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="works wrong">
+      <created>1697123100549</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697123100549</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="two apis for locations and weather" />
     <MESSAGE value="full functional, can't get road and house of places" />
-    <option name="LAST_COMMIT_MESSAGE" value="full functional, can't get road and house of places" />
+    <MESSAGE value="works wrong" />
+    <option name="LAST_COMMIT_MESSAGE" value="works wrong" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/LocationGetter.java</url>
-          <line>41</line>
+          <line>38</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/LocationGetter.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
