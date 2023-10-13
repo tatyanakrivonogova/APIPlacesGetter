@@ -50,14 +50,13 @@ public class Main {
             try {
                 String weather = weatherFuture.get();
                 String descriptions = descriptionsFuture.get();
-                System.out.println("Погода: " + weather);
-                System.out.println("Интересные места: " + descriptions);
+                System.out.println('\t' + "Погода: " + '\n' + weather);
+                System.out.println('\t' + "Интересные места: " + '\n' + descriptions);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         });
 
-        System.out.println("Finish");
+        //System.out.println("Finish");
     }
-
 }

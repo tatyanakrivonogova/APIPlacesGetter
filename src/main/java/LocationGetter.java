@@ -19,7 +19,7 @@ public class LocationGetter {
     public CompletableFuture<LocationSet> run() {
         CompletableFuture<LocationSet> future = new CompletableFuture<>();
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter location: ");
+        System.out.print("Введите название: ");
 
         String location = scanner.nextLine();
         try {
@@ -28,7 +28,7 @@ public class LocationGetter {
             e.printStackTrace();
             future.completeExceptionally(e);
         }
-        System.out.println("Completed");
+        //System.out.println("Completed");
         return future;
     }
     public void makeRequest(String location,CompletableFuture<LocationSet> future) throws IOException {
@@ -63,7 +63,7 @@ public class LocationGetter {
             String state = object.getString("state");
             String city = object.getString("city");
 
-            locationSet.getLocationsMap().put(index, new LocationInfo(name, new Coordinates(latitude, longitude)));
+            locationSet.getLocationsMap().put(index, new LocationInfo(name, country, state, city, new Coordinates(latitude, longitude)));
             //System.out.println(index + ": " + "name=" + name + " country=" + country + " state=" + state + " city=" + city + " latitude=" + latitude + " longitude=" + longitude);
             ++index;
         }
@@ -72,10 +72,15 @@ public class LocationGetter {
     LocationInfo chooseLocation(LocationSet locationSet) {
         System.out.println("Список локаций:");
         for (Map.Entry<Integer, LocationInfo> location : locationSet.getLocationsMap().entrySet()) {
-            System.out.println(location.getKey() + " " + location.getValue());
+            System.out.println(location.getKey() + " " + location.getValue().getName()
+                    + ", " + location.getValue().getCountry()
+                    + ", " + location.getValue().getState()
+                    + ", " + location.getValue().getCity()
+                    + ", долгота: " + location.getValue().getCoords().getLongitude()
+                    + ", широта: " + location.getValue().getCoords().getLatitude());
         }
-        System.out.println("*************************");
-        System.out.print("Choose one location and enter its index: ");
+        //System.out.println("*************************");
+        System.out.print("Выберите нужную локацию и введите ее номер: ");
         Scanner scanner = new Scanner(System.in);
         int selectedIndex = scanner.nextInt();
         //locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));

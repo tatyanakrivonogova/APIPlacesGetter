@@ -15,7 +15,7 @@ public class WeatherGetter {
         //locationSet.setSelectedPlace(locationSet.getLocationsMap().get(selectedIndex));
         CompletableFuture<String> future = new CompletableFuture<>();
         makeRequest(future);
-        System.out.println("Done!");
+        //System.out.println("Done!");
         return future;
     }
     public void makeRequest(CompletableFuture<String> future) {
@@ -47,7 +47,7 @@ public class WeatherGetter {
         double tempMin = jsonObject.getDouble("temp_min");
         double tempMax = jsonObject.getDouble("temp_max");
 
-        return "Weather for " + locationInfo.getName() + ": " + "temp:" + temp +
-                " feels like:" + feelsLike + " temp_min:" + tempMin + " temp_max:" + tempMax;
+        return locationInfo.getName() + ": " + "температура:" + temp +
+                " ощущается как:" + feelsLike + " минимум:" + tempMin + " максимум:" + tempMax;
     }
 }

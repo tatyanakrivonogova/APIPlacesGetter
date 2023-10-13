@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73606e6-7eb4-4db9-8c0d-074dfc59e6ed" name="Changes" comment="works wrong">
-      <change afterPath="$PROJECT_DIR$/src/main/java/DescriptionGetter.java" afterDir="false" />
+    <list default="true" id="b73606e6-7eb4-4db9-8c0d-074dfc59e6ed" name="Changes" comment="works much better, but donesn't finish and need to fix locations print">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/InterestingPlacesGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/InterestingPlacesGetter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/LocationGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LocationGetter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LocationInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LocationInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/WeatherGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WeatherGetter.java" afterDir="false" />
     </list>
@@ -93,21 +92,29 @@
       <option name="project" value="LOCAL" />
       <updated>1697123100549</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="works much better, but donesn't finish and need to fix locations print">
+      <created>1697204433570</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697204433570</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="two apis for locations and weather" />
     <MESSAGE value="full functional, can't get road and house of places" />
     <MESSAGE value="works wrong" />
-    <option name="LAST_COMMIT_MESSAGE" value="works wrong" />
+    <MESSAGE value="works much better, but donesn't finish and need to fix locations print" />
+    <option name="LAST_COMMIT_MESSAGE" value="works much better, but donesn't finish and need to fix locations print" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/LocationGetter.java</url>
-          <line>38</line>
+          <line>34</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
