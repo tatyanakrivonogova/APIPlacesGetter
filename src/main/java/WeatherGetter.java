@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class WeatherGetter {
     private final LocationInfo locationInfo;
+    private static final OkHttpClient client = new OkHttpClient();
     private static final String APIkey = "25ff6748da47a7d903abd3e5e6f6b7cb";
     public WeatherGetter(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;
@@ -17,7 +18,6 @@ public class WeatherGetter {
         return future;
     }
     public void makeRequest(CompletableFuture<String> future) {
-        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.openweathermap.org/data/2.5/weather?units=metric&lat=" +
                         locationInfo.getCoords().getLatitude() + "&lon=" +
@@ -27,10 +27,11 @@ public class WeatherGetter {
 
         client.newCall(request).enqueue(new Callback() {
             public void onResponse(Call call, Response response) throws IOException {
+                assert response.body() != null;
                 future.complete(parseResponse(response.body().string()));
             }
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                System.out.println("Не удалось получить прогноз погоды");
                 future.completeExceptionally(e);
             }
         });

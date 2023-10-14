@@ -20,12 +20,12 @@ public class DescriptionGetter {
 
         client.newCall(request).enqueue(new Callback() {
             public void onResponse(Call call, Response response) throws IOException {
+                assert response.body() != null;
                 String body = response.body().string();
                 if (body == null) return;
                 future.complete(parseResponse(body));
             }
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
                 future.completeExceptionally(e);
             }
         });

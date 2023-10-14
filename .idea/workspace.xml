@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73606e6-7eb4-4db9-8c0d-074dfc59e6ed" name="Changes" comment="fixed location info, replaced to russian, need to fix finishing of program">
+    <list default="true" id="b73606e6-7eb4-4db9-8c0d-074dfc59e6ed" name="Changes" comment="fixed name in descriptions, some names of variables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/DescriptionGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DescriptionGetter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/InterestingPlacesGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/InterestingPlacesGetter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/LocationGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LocationGetter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LocationSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LocationSet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/WeatherGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WeatherGetter.java" afterDir="false" />
     </list>
@@ -108,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697205999354</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fixed name in descriptions, some names of variables">
+      <created>1697208641027</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697208641027</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -117,6 +123,7 @@
     <MESSAGE value="works wrong" />
     <MESSAGE value="works much better, but donesn't finish and need to fix locations print" />
     <MESSAGE value="fixed location info, replaced to russian, need to fix finishing of program" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed location info, replaced to russian, need to fix finishing of program" />
+    <MESSAGE value="fixed name in descriptions, some names of variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed name in descriptions, some names of variables" />
   </component>
 </project>

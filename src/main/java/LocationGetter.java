@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class LocationGetter {
     private final LocationSet locationSet;
+    private static final OkHttpClient client = new OkHttpClient();
     private static final String APIkey = "b4ffdb7c-df80-4dff-8266-725cc3a06c2a";
     public LocationGetter() {
         this.locationSet = new LocationSet(new HashMap<>());
@@ -22,16 +23,10 @@ public class LocationGetter {
         System.out.print("Введите название: ");
 
         String location = scanner.nextLine();
-        try {
-            makeRequest(location, future);
-        } catch (IOException e) {
-            e.printStackTrace();
-            future.completeExceptionally(e);
-        }
+        makeRequest(location, future);
         return future;
     }
-    public void makeRequest(String location,CompletableFuture<LocationSet> future) throws IOException {
-        OkHttpClient client = new OkHttpClient();
+    public void makeRequest(String location,CompletableFuture<LocationSet> future) {
         Request request = new Request.Builder()
                 .url("https://graphhopper.com/api/1/geocode?locale=ru&q=" + URLEncoder.encode(location) + "&key=" + APIkey)
                 .get()
@@ -39,11 +34,12 @@ public class LocationGetter {
 
         client.newCall(request).enqueue(new Callback() {
             public void onResponse(Call call, Response response) throws IOException {
+                assert response.body() != null;
                 parseResponse(response.body().string());
                 future.complete(locationSet);
             }
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                System.out.println("Не удалось получить список локаций");
                 future.completeExceptionally(e);
             }
         });

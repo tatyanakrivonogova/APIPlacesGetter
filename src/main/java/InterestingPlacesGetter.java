@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class InterestingPlacesGetter {
     private final LocationInfo locationInfo;
+    private static final OkHttpClient client = new OkHttpClient();
     private static final int RADIUS = 500;
     private static final String APIkey = "5ae2e3f221c38a28845f05b61fa85b73872df08065f37412956e8708";
     public InterestingPlacesGetter(LocationInfo locationInfo) {
@@ -15,8 +16,6 @@ public class InterestingPlacesGetter {
 
     public CompletableFuture<JSONArray> getPlaces() {
         CompletableFuture<JSONArray> future = new CompletableFuture<>();
-
-        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("http://api.opentripmap.com/0.1/ru/places/radius?radius=" + RADIUS +
                         "&lon=" + locationInfo.getCoords().getLongitude() +
@@ -27,11 +26,12 @@ public class InterestingPlacesGetter {
 
         client.newCall(request).enqueue(new Callback() {
             public void onResponse(Call call, Response response) throws IOException {
+                assert response.body() != null;
                 String body = response.body().string();
                 future.complete(new JSONObject(body).getJSONArray("features"));
             }
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                System.out.println("Не удалось получить список интересных мест");
                 future.completeExceptionally(e);
             }
         });
